@@ -10,16 +10,24 @@ def index(request):
 
 @twilio_view
 def hello(request):
+	# if POSTed to by twilio...
 	if request.method == 'POST':
 		# gets body of text, else None
 		body = request.POST.get('Body', None)
-		r = Response() # makes messages object
+		number = request.POST.get('From', None)
 
-		if body is not None:
-			r.message('The message you sent: ' + body)
-		else:
-			r.message('you didn\'t send anything...')
+		api.send_sms(body='The message you sent: ' + body, from_phone='+13098086245', to=['+1' + number])
+		
+		# twilio repsonse
+		# r = Response() # makes messages object
 
-		return HttpResponse(r.toxml(), content_type='text/xml')
+		# if body is not None:
+		# 	r.message('The message you sent: ' + body)
+		# else:
+		# 	r.message('you didn\'t send anything...')
+
+		# return HttpResponse(r.toxml(), content_type='text/xml')
+
+	# if accessing the webpage via GET
 	elif request.method == 'GET':
 		return HttpResponse('bro why don\'t you just GET out of here.')
