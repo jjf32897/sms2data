@@ -28,6 +28,9 @@ DEBUG = True
 
 # Application definition
 
+TWILIO_ACCOUNT_SID = 'AC517ac4dc2a0f6b3f3ddaf8d1fb66da53' 
+TWILIO_AUTH_TOKEN = 'b8c059b1facdb44030ed33cd0fc0e1b3'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django_twilio'
 ]
 
 MIDDLEWARE_CLASSES = [
