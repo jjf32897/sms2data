@@ -16,7 +16,7 @@ def hello(request):
 		body = request.POST.get('Body', None)
 		number = request.POST.get('From', None)
 
-		# api.send_sms(body='The message you sent: ' + body, from_phone='+13098086245', to=['+1' + number])
+		api.send_sms(body='The message you sent: ' + body, from_phone='+13098086245', to=[number])
 		
 		# twilio response
 		r = Response() # makes messages object
