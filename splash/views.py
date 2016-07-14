@@ -1,3 +1,4 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import HttpResponse
 import twilio.twiml
@@ -6,6 +7,7 @@ import twilio.twiml
 def index(request):
 	return HttpResponse("placeholder ;)")
 
+@csrf_exempt
 def hello(request):
 	if request.method == 'POST':
 		# the person who it was from, otherwise, None
@@ -13,7 +15,7 @@ def hello(request):
 		msg = "Your number is " + str(from_num)
 		resp = twilio.twiml.Response()
 		resp.message(msg)
-		return str(resp)
+		return HttpResponse(str(resp))
 
 	elif request.method == 'GET':
 	    resp = twilio.twiml.Response()
