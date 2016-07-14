@@ -51,9 +51,9 @@ def index(request):
 @twilio_view
 def hello(request):
 	# if POSTed to by twilio...
-	if request.method == 'GET':
+	if request.method == 'POST':
 		# gets body of text, else None
-		sub = 'Wiki united states'.split() #request.POST.get('Body', None).split()
+		sub = request.POST.get('Body', None).split()
 		query = sub[0] # first part is the query
 
 		# twilio response
