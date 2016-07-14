@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
-from sendsms import api
-from django.core.mail import send_mail
+import urllib2, re
 
 # Create your views here.
 def index(request):
@@ -14,19 +13,30 @@ def hello(request):
 	# if POSTed to by twilio...
 	if request.method == 'POST':
 		# gets body of text, else None
-		body = request.POST.get('Body', None)
-		number = request.POST.get('From', None)
+		search = request.POST.get('Body', None)
 
-		# api.send_sms(body='The message you sent: ' + body, from_phone='+13098086245', to=[number])
-		send_mail('', 'The message you sent: ' + body, '3098380283@vtext.com', [number[1:] + '@vtext.com'], fail_silently=False)
-		
 		# twilio response
 		r = Response() # makes messages object
 
-		if body is not None:
-			r.message('The message you sent: ' + body + "; Your digits: " + number)
-		else:
-			r.message('Error')
+		try:
+			# gets wikpedia page
+			response = urllib2.urlopen('http://wikipedia.org/wiki/' + search)
+			html = response.read()
+
+			# just gets the introduction
+			intro = html[html.index('<p>') + 3:html.index('</p>')]
+
+			# regexes to clean up the text
+			tags = re.compile(r'<.*?>')
+			refs = re.compile(r'\[[0-9]\]')
+
+			intro = tags.sub('', intro)
+			intro = refs.sub('', intro)
+
+			r.message(intro)
+
+		except:
+			r.message('Error, try again soon')
 
 		return HttpResponse(r.toxml(), content_type='text/xml')
 
