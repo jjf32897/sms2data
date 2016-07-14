@@ -9,15 +9,5 @@ def index(request):
 
 @csrf_exempt
 def hello(request):
-	if request.method == 'POST':
-		# the person who it was from, otherwise, None
-		from_num = request.values.get('From', None)
-		msg = "Your number is " + str(from_num)
-		resp = twilio.twiml.Response()
-		resp.message(msg)
-		return HttpResponse(str(resp))
-
-	elif request.method == 'GET':
-	    resp = twilio.twiml.Response()
-	    resp.message("get request")
-	    return HttpResponse(str(resp))
+	twiml = '<Response><Message>i said hey what\'s up hello</Message></Response>'
+	return HttpResponse(twiml, content_type='text/xml')
