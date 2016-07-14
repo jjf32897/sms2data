@@ -7,6 +7,15 @@ def index(request):
 	return HttpResponse("placeholder ;)")
 
 def hello(request):
-    resp = twilio.twiml.Response()
-    resp.message("what's up hello")
-    return HttpResponse(str(resp))
+	if request.method == 'POST':
+		# the person who it was from, otherwise, None
+		from_num = request.values.get('From', None)
+		msg = "Your number is " + str(from_num)
+		resp = twilio.twiml.Response()
+		resp.message(msg)
+		return HttpResponse(str(resp))
+		
+	elif request.method == 'GET':
+	    resp = twilio.twiml.Response()
+	    resp.message("get request")
+	    return HttpResponse(str(resp))
