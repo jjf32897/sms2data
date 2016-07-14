@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
 from sendsms import api
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -16,7 +17,8 @@ def hello(request):
 		body = request.POST.get('Body', None)
 		number = request.POST.get('From', None)
 
-		api.send_sms(body='The message you sent: ' + body, from_phone='+13098086245', to=[number])
+		# api.send_sms(body='The message you sent: ' + body, from_phone='+13098086245', to=[number])
+		send_mail('', 'The message you sent: ' + body, '3098380283@vtext.com', [number[1:] + '@vtext.com'], fail_silently=False)
 		
 		# twilio response
 		r = Response() # makes messages object
