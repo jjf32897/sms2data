@@ -4,6 +4,28 @@ from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
 import urllib2, re
 
+# makes the message the intro the corresponding wikipedia page
+def wiki(search):
+	try:
+		# gets wikpedia page
+		response = urllib2.urlopen('http://wikipedia.org/wiki/' + search)
+		html = response.read()
+
+		# just gets the introduction
+		intro = html[html.index('<p>') + 3:html.index('</p>')]
+
+		# regexes to clean up the text
+		tags = re.compile(r'<.*?>')
+		refs = re.compile(r'\[[0-9]\]')
+
+		intro = tags.sub('', intro)
+		intro = refs.sub('', intro)
+
+		return intro
+
+	except:
+		return 'Error! Your search term might not exist in the Wikipedia database :('
+
 # Create your views here.
 def index(request):
 	return HttpResponse("placeholder ;)")
@@ -13,31 +35,16 @@ def hello(request):
 	# if POSTed to by twilio...
 	if request.method == 'POST':
 		# gets body of text, else None
-		search = request.POST.get('Body', None)
+		sub = request.POST.get('Body', None).split()
+		query = sub[0] # first part is the query
 
 		# twilio response
 		r = Response() # makes messages object
 
-		try:
-			# gets wikpedia page
-			response = urllib2.urlopen('http://wikipedia.org/wiki/' + search)
-			html = response.read()
-
-			# just gets the introduction
-			intro = html[html.index('<p>') + 3:html.index('</p>')]
-
-			# regexes to clean up the text
-			tags = re.compile(r'<.*?>')
-			refs = re.compile(r'\[[0-9]\]')
-
-			intro = tags.sub('', intro)
-			intro = refs.sub('', intro)
-
-			r.message(intro)
-
-		except:
-			r.message('Error, try again soon')
-
+		if query.lower() = 'wiki':
+			term = '_'.join(sub[1:]) # rest of their submission put together with underscores
+			r.message(wiki(term))
+		
 		return HttpResponse(r.toxml(), content_type='text/xml')
 
 	# if accessing the webpage via GET
