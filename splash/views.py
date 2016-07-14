@@ -13,8 +13,8 @@ def hello(request):
 		msg = "Your number is " + str(from_num)
 		resp = twilio.twiml.Response()
 		resp.message(msg)
-		return HttpResponse(str(resp))
-		
+		return str(resp)
+
 	elif request.method == 'GET':
 	    resp = twilio.twiml.Response()
 	    resp.message("get request")
