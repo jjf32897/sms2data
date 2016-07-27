@@ -56,8 +56,7 @@ def hello(request):
 		# twilio response
 		r = Response() # makes messages object
 
-		r.message.body = 'testing'
-		r.message.media = 'https://demo.twilio.com/owl.png'
+		r.message = '<Media>https://demo.twilio.com/owl.png</Media>'
 
 		# if query == 'hold': # hold on to a piece of data
 
