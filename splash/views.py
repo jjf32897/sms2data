@@ -48,7 +48,7 @@ def index(request):
 @twilio_view
 def hello(request):
 	# if POSTed to by twilio...
-	if request.method == 'POST':
+	if request.method == 'GET':
 		# gets body of text, else None
 		# sub = request.POST.get('Body', None).split()
 		# query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
@@ -59,7 +59,7 @@ def hello(request):
 		# r.message('hello')
 		# r.
 
-		response = "<Response><Message><Body>Requested Data:</Body><Media>https://demo.twilio.com/owl.png</Media></Message></Response>"
+		response = "<Response><Message><Body>Requested Data:</Body><Media>http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200</Media></Message></Response>"
 
 		# if query == 'hold': # hold on to a piece of data
 
