@@ -48,18 +48,19 @@ def index(request):
 @twilio_view
 def hello(request):
 	# if POSTed to by twilio...
-	if request.method == 'POST':
+	if request.method == 'GET':
 		# gets body of text, else None
 		# sub = request.POST.get('Body', None).split()
 		# query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
 
 		# twilio response
-		# r = Response() # makes messages object
+		r = Response() # makes messages object
 
-		# r.message('hello')
-		# r.
-
-		response = "<Response><Message><Body>Requested Data:</Body><Media></Media>https://media.giphy.com/media/GA2FNpP1kAQNi/giphy.gif<Media>http://www.reactiongifs.com/wp-content/uploads/2013/07/ron-moved.gif</Media><Media>http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200</Media></Message></Response>"
+		with r.message('hello') as m:
+			m.media('https://media.giphy.com/media/GA2FNpP1kAQNi/giphy.gif')
+			m.media('http://www.reactiongifs.com/wp-content/uploads/2013/07/ron-moved.gif')
+			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
+		
 
 		# if query == 'hold': # hold on to a piece of data
 
@@ -73,7 +74,7 @@ def hello(request):
 		# else:
 		# 	r.message('Invalid request')
 		
-		return HttpResponse(response, content_type='text/xml')
+		return HttpResponse(r.toxml(), content_type='text/xml')
 
 	# if accessing the webpage via GET
 	elif request.method == 'GET':
