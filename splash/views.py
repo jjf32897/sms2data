@@ -59,7 +59,7 @@ def hello(request):
 		# r.message('hello')
 		# r.
 
-		response = "<Response><Message><Body>Requested Data:</Body><Media>http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200</Media></Message></Response>"
+		response = "<Response><Message><Body>Requested Data:</Body><Media></Media>https://media.giphy.com/media/GA2FNpP1kAQNi/giphy.gif<Media>http://www.reactiongifs.com/wp-content/uploads/2013/07/ron-moved.gif</Media><Media>http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200</Media></Message></Response>"
 
 		# if query == 'hold': # hold on to a piece of data
 
