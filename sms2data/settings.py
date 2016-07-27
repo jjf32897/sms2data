@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django_twilio',
-    'sendsms'
+    'splash.apps.SplashConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

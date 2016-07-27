@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
+from .models import Dataset, Element
 import urllib2, re, json, unicodedata, zlib
 
 # makes the message the intro the corresponding wikipedia page (riddled with bugs/edge cases)
@@ -50,18 +51,22 @@ def hello(request):
 	# if POSTed to by twilio...
 	if request.method == 'POST':
 		# gets body of text, else None
-		# sub = request.POST.get('Body', None).split()
+		identifier = request.POST.get('Body', None)
 		# query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
+
+		number = request.POST.get('From', None) # gets the user's number
+
+		dataset = Dataset.objects.get(number=number, identifier=identifier) # retrieves the corresponding dataset
 
 		# twilio response
 		r = Response() # makes messages object
 
-		with r.message('hello') as m:
-			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
-			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
-			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
+		with r.message('Requested images:') as m:
+			if dataset is not None:
+				for element in dataset.elements.all():
+					if element.is_media: # if it's a media URL, add it as a media tag to the response XML
+						m.media(element.datum)
 		
-
 		# if query == 'hold': # hold on to a piece of data
 
 		# elif query == 'give': # retrieve a piece of data
