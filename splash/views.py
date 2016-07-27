@@ -57,8 +57,8 @@ def hello(request):
 		r = Response() # makes messages object
 
 		with r.message('hello') as m:
-			m.media('https://media.giphy.com/media/GA2FNpP1kAQNi/giphy.gif')
-			m.media('http://www.reactiongifs.com/wp-content/uploads/2013/07/ron-moved.gif')
+			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
+			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
 			m.media('http://rs1220.pbsrc.com/albums/dd448/HannahLynnLove/GIF%20Photos/Success.gif~c200')
 		
 
