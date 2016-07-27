@@ -48,7 +48,7 @@ def index(request):
 @twilio_view
 def hello(request):
 	# if POSTed to by twilio...
-	if request.method == 'GET':
+	if request.method == 'POST':
 		# gets body of text, else None
 		# sub = request.POST.get('Body', None).split()
 		# query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
