@@ -50,13 +50,16 @@ def hello(request):
 	# if POSTed to by twilio...
 	if request.method == 'POST':
 		# gets body of text, else None
-		sub = request.POST.get('Body', None).split()
-		query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
+		# sub = request.POST.get('Body', None).split()
+		# query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
 
 		# twilio response
-		r = Response() # makes messages object
+		# r = Response() # makes messages object
 
-		r.message = '<Media>https://demo.twilio.com/owl.png</Media>'
+		# r.message('hello')
+		# r.
+
+		response = "<Response><Message><Body>Requested Data:</Body><Media>https://demo.twilio.com/owl.png</Media></Message></Response>"
 
 		# if query == 'hold': # hold on to a piece of data
 
@@ -70,7 +73,7 @@ def hello(request):
 		# else:
 		# 	r.message('Invalid request')
 		
-		return HttpResponse(r.toxml(), content_type='text/xml')
+		return HttpResponse(response, content_type='text/xml')
 
 	# if accessing the webpage via GET
 	elif request.method == 'GET':
