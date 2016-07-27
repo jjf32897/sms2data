@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
-import urllib2, re, json, unicodedata
+import urllib2, re, json, unicodedata, zlib
 
 # makes the message the intro the corresponding wikipedia page (riddled with bugs/edge cases)
 def wiki(search):
@@ -27,6 +27,20 @@ def wiki(search):
 	except:
 		return 'Error! Your search term might not exist in the Wikipedia database :('
 
+# sends the title and top answer of the top result for the stack overflow question related to the search terms
+def stack(search):
+	# collects json. it looks like it's gzipped, so we'll deal with that
+	response = urllib2.urlopen('https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=activity&q=' + search + '&site=stackoverflow')
+	decompressed = zlib.decompress(response.read(), 16 + zlib.MAX_WBITS)
+	data = json.loads(decompressed) # turn string into JSON dict
+	if data['items']: # if there are questions resulting from the query, get the top answer of the first one
+		top = data['items'][0]
+		if top['is_answered']: # if it has an accepted answer
+			pass
+
+	else:
+		return 'Error! Couldn\'t find a relevant StackOverflow question :('
+
 # Create your views here.
 def index(request):
 	return HttpResponse("placeholder ;)")
@@ -37,17 +51,25 @@ def hello(request):
 	if request.method == 'POST':
 		# gets body of text, else None
 		sub = request.POST.get('Body', None).split()
-		query = sub[0] # first part is the query
+		query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
 
 		# twilio response
 		r = Response() # makes messages object
 
-		if 
-		elif query.lower() == 'wiki':
-			term = '%20'.join(sub[1:]) # rest of their submission put together with %20s
-			r.message(wiki(term))
-		else:
-			r.message('Invalid request')
+		r.message.body = 'testing'
+		r.message.media = 'https://demo.twilio.com/owl.png'
+
+		# if query == 'hold': # hold on to a piece of data
+
+		# elif query == 'give': # retrieve a piece of data
+
+		# elif query == 'code':
+		# 	pass
+		# elif query == 'wiki': # wiki the term and return the intro
+		# 	term = '%20'.join(sub[1:]) # rest of their submission put together with %20s
+		# 	r.message(wiki(term))
+		# else:
+		# 	r.message('Invalid request')
 		
 		return HttpResponse(r.toxml(), content_type='text/xml')
 
