@@ -4,7 +4,7 @@ from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
 import urllib2, re, json, unicodedata
 
-# makes the message the intro the corresponding wikipedia page
+# makes the message the intro the corresponding wikipedia page (riddled with bugs/edge cases)
 def wiki(search):
 	try:
 		response = urllib2.urlopen('https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=' + search)
@@ -24,23 +24,6 @@ def wiki(search):
 
 			return intro
 
-
-		# # gets wikpedia page
-		# response = urllib2.urlopen('http://wikipedia.org/wiki/' + search)
-		# html = response.read()
-
-		# # just gets the introduction
-		# intro = html[html.index('<p>') + 3:html.index('</p>')]
-
-		# # regexes to clean up the text
-		# tags = re.compile(r'<.*?>')
-		# refs = re.compile(r'\[[0-9]\]')
-
-		# intro = tags.sub('', intro)
-		# intro = refs.sub('', intro)
-
-		# return intro
-
 	except:
 		return 'Error! Your search term might not exist in the Wikipedia database :('
 
@@ -59,7 +42,8 @@ def hello(request):
 		# twilio response
 		r = Response() # makes messages object
 
-		if query.lower() == 'wiki':
+		if 
+		elif query.lower() == 'wiki':
 			term = '%20'.join(sub[1:]) # rest of their submission put together with %20s
 			r.message(wiki(term))
 		else:
