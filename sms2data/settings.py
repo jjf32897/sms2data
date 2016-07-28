@@ -117,8 +117,10 @@ USE_L10N = True
 USE_TZ = True
 
 # Update database configuration with $DATABASE_URL.
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)
+# manually configured to match heroku db
+DATABASES['default'] = dj_database_url.config(default='postgres://ljzndmvkfdryzz:bMeaqlvrXHDC9dk5NzpugG1XR6@ec2-54-243-204-57.compute-1.amazonaws.com:5432/deamuej98bap2q')
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
