@@ -44,7 +44,7 @@ def stack(search):
 
 # Create your views here.
 def index(request):
-	return render
+	return render('index.html')
 
 @twilio_view
 def hello(request):
@@ -53,7 +53,6 @@ def hello(request):
 		# gets body of text, else None
 		identifier = request.POST.get('Body', None)
 		# query = sub[0].lower() # first part is the query, lowercased to avoid those annoying issues
-
 		number = request.POST.get('From', None) # gets the user's number
 
 		dataset = Dataset.objects.get(number=number, identifier=identifier.lower()) # retrieves the corresponding dataset
