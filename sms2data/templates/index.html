@@ -3,13 +3,15 @@
 {% block main %}
   <div>
     <h1>sms2data</h1>
+    <h2>{{ notif }}</h2>
     <p>
       this is the index page where you can submit data for storage and later retrieval via sms
       <ul>
         <li>submit phone number, unique retrieval code and data (text/img/gif) to be stored</li>
         <li>later, text your unique code to (309)-808-6245 and your data will be sent to you via sms/mms</li>
       </ul>
-      <form action="/store" method="POST">
+      <form action="store" method="post" id="storage">
+        {% csrf_token %}
         phone number (XXX-XXX-XXXX):
         <input type="text" name="phone"><br>
         retrieval code:
@@ -19,7 +21,7 @@
         data type:
         <input type="radio" name="dtype" value="mms" checked="checked"> media (gif/img)
         <input type="radio" name="dtype" value="plain"> plaintext<br>
-        <input type="submit">
+        <button type="submit" form="storage">submit</button>
       </form>
     </p>
   </div>

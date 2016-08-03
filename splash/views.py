@@ -46,10 +46,37 @@ def stack(search):
 def index(request):
 	return render(request, 'index.html')
 
-def submit(request):
+def store(request):
 	# if they're POSTing
 	if request.method == 'POST':
-		pass
+		num = request.POST.get('phone').replace('(', '').replace(')', '').replace('-', '') # filter out parens and hyphens
+		code = request.POST.get('code')
+		data = request.POST.get('data')
+		dtype = request.POST.get('dtype')
+
+		if len(num) > 0 and len(code) > 0 and len(data) > 0:
+			if len(num) != 10 or not num.isdigit(): # if it's not a valid phone number
+				return render(request, 'index.html', {'notif': 'invalid phone number'})
+			else:
+				# make the element
+				# if it's media
+				if dtype == "mms":
+					element = Element(datum=data)
+				else: # otherwise
+					element = Element(datum=data, is_media=False)
+
+				element.save()
+
+				# make the dataset and give it the element
+				dataset = Dataset(number='+1' + num, identifier=code)
+				dataset.save()
+
+				dataset.elements.add(element)
+
+				return render(request, 'index.html', {'notif': 'your submission was successful'})
+		
+		else:
+			return render(request, 'index.html', {'notf': 'fill out form completely'})
 
 	# if they're GETting
 	else:
