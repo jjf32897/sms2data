@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from twilio.twiml import Response
 from django_twilio.decorators import twilio_view
 from .models import Dataset, Element
@@ -42,9 +42,18 @@ def stack(search):
 	else:
 		return 'Error! Couldn\'t find a relevant StackOverflow question :('
 
-# Create your views here.
+# good ol' index page
 def index(request):
-	return render('index.html')
+	return render(request, 'index.html')
+
+def submit(request):
+	# if they're POSTing
+	if request.method == 'POST':
+		pass
+
+	# if they're GETting
+	else:
+		return HttpResponseRedirect('/')
 
 @twilio_view
 def hello(request):

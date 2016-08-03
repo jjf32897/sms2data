@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_twilio',
     'splash.apps.SplashConfig',
+    'sms2data',
 ]
 
 MIDDLEWARE_CLASSES = [

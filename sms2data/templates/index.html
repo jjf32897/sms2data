@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div>
+    <h1>sms2data</h1>
+    <p>
+      this is the index page where you can submit data for storage and later retrieval via sms
+      <ul>
+        <li>submit phone number, unique retrieval code and data (text/img/gif) to be stored</li>
+        <li>later, text your unique code to (309)-808-6245 and your data will be sent to you via sms/mms</li>
+      </ul>
+      <form action="/store" method="POST">
+        phone number (XXX-XXX-XXXX):
+        <input type="text" name="phone"><br>
+        retrieval code:
+        <input type="text" name="code"><br>
+        data:
+        <input type="text" name="data"><br>
+        data type:
+        <input type="radio" name="dtype" value="mms" checked="checked"> media (gif/img)
+        <input type="radio" name="dtype" value="plain"> plaintext<br>
+        <input type="submit">
+      </form>
+    </p>
+  </div>
+{% endblock %}
